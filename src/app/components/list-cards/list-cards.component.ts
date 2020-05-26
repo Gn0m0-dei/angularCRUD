@@ -11,6 +11,7 @@ declare var M: any;
 })
 export class ListCardsComponent implements OnInit {
   listPeople: People[];
+  loaded: boolean = false;
 
   constructor(private api: ConnectionService) { }
 
@@ -22,6 +23,7 @@ export class ListCardsComponent implements OnInit {
     this.api.getPeople().subscribe((people) => {
       console.log(people);
       this.listPeople = people as People[];
+      this.loaded = true;
     }, (err) => {
       M.toast({html: err, classes: 'rounded red'});
     })
