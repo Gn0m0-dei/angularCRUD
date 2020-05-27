@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { People } from '../../classes/people';
 import { ConnectionService } from '../../services/connection.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
 
 declare var M: any;
 
@@ -11,20 +13,32 @@ declare var M: any;
 })
 export class NewCardComponent implements OnInit {
 
-  content: People;
+  newPersonForm: FormGroup;
 
-  constructor(private api: ConnectionService) { }
+  constructor(private api: ConnectionService,
+              private formBuilder: FormBuilder) {
+                this.resetForm();
+              }
 
   ngOnInit(): void {
-    this.content = new People();
+
   }
 
-  createPerson() {
-    this.api.postPerson(this.content).subscribe(res => {
-      this.content = new People();
+  createPerson(values: People) {
+    this.api.postPerson(values).subscribe(res => {
       M.toast({html: 'New user created', classes: 'rounded green'});
+      this.resetForm();
     }), (err => {
       M.toast({html: err, classes: 'rounded red'});
+    })
+  }
+
+  resetForm() {
+    this.newPersonForm = this.formBuilder.group ({
+      name: ['', Validators.compose([Validators.required,
+        Validators.minLength(1)])],
+      birthdate: ['', Validators.compose([Validators.required,
+        Validators.pattern('^[0-9]{4}\-[0-9]{2}\-[0-9]{2}\T[0-9]{2}\:[0-9]{2}\:[0-9]{2}$')])]
     })
   }
 

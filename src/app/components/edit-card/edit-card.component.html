@@ -3,20 +3,22 @@
     <div class="col s12 m8 l6 xl5">
       <div class="card grey lighten-5">
         <div class="card-content">
-          <form #personForm="ngForm" (ngSubmit)="updatePerson()">
-            <span class="badge teal lighten-2 white-text">ID: {{content.id}}</span>
+          <form [formGroup]="editPersonForm" (ngSubmit)="updatePerson(editPersonForm.value)">
+            <span class="badge teal lighten-2 white-text">ID: {{id}}</span>
             <div class="input-field">
-              <input type="text" data-length="10" name="name" #name="ngModel"
-              [(ngModel)]="content.name">
-              <input type="text" data-length="10" name="birthdate" #birthdate="ngModel"
-              [(ngModel)]="content.birthdate">
+              <input formControlName="name" type="text" name="name" placeholder="name" class="validate" [ngClass]="{'invalid': editPersonForm.get('name').touched && editPersonForm.get('name').hasError('required')}">
+              <div *ngIf="editPersonForm.get('name').touched && editPersonForm.get('name').hasError('required')" class="red-text"><p>Required field</p></div>
+              <input formControlName="birthdate" type="text" name="birthdate" placeholder="YYYY-MM-DDT00:00:00" class="validate" [ngClass]="{'invalid': editPersonForm.get('birthdate').touched && (editPersonForm.get('birthdate').hasError('required') || editPersonForm.get('birthdate').hasError('pattern')),
+              'valid': editPersonForm.get('birthdate') && !editPersonForm.get('birthdate').invalid}">
+              <div *ngIf="editPersonForm.get('birthdate').touched && editPersonForm.get('birthdate').hasError('required')" class="red-text"><p>Required field</p></div>
+              <div *ngIf="editPersonForm.get('birthdate').touched && editPersonForm.get('birthdate').hasError('pattern')" class="red-text"><p>Field format invalid: date ISO YYYY-MM-DDT00:00:00</p></div>
             </div>
             <ul class="right toolbarcard">
               <li><a routerLink="/list" class="btn-floating waves-effect waves-light red"><i
                     class="material-icons">navigate_before</i></a></li>
-              <li><button type="submit" class="btn-floating waves-effect waves-light red"><i
+              <li><button [disabled]="editPersonForm.invalid" type="submit" class="btn-floating waves-effect waves-light red"><i
                     class="material-icons">save</i></button></li>
-              <li><a (click)="deletePerson(content.id)" routerLink="/list" class="btn-floating waves-effect waves-light red"><i class="material-icons">delete</i></a></li>
+              <li><a (click)="deletePerson(id)" routerLink="/list" class="btn-floating waves-effect waves-light red"><i class="material-icons">delete</i></a></li>
             </ul>
           </form>
         </div>

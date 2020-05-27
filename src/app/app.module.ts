@@ -11,7 +11,6 @@ import { ListCardsComponent } from './components/list-cards/list-cards.component
 import { NewCardComponent } from './components/new-card/new-card.component';
 import { EditCardComponent } from './components/edit-card/edit-card.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -27,7 +26,6 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     HttpClientModule,
-    FormsModule,
     ReactiveFormsModule,
     AppRoutingModule
   ],

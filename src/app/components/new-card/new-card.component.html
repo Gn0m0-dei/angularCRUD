@@ -2,18 +2,25 @@
   <div class="col s12 m8 l6 xl5">
     <div class="card grey lighten-5">
       <div class="card-content">
-        <form #newPersonForm="ngForm" (ngSubmit)="(createPerson())">
+        <form [formGroup]="newPersonForm" (ngSubmit)="(createPerson(newPersonForm.value))">
           <span class="badge teal lighten-2 white-text">ID auto</span>
           <div class="input-field">
-            <input type="text" data-length="10" placeholder="name" class="validate" required name="name" #name="ngModel"
-            [(ngModel)]="content.name">
-            <input type="text" data-length="10" placeholder="birthdate" class="validate" required name="birthdate" #birthdate="ngModel"
-            [(ngModel)]="content.birthdate">
+            <input formControlName="name" type="text" class="validate"
+              [ngClass]="{'invalid': newPersonForm.get('name').touched && newPersonForm.get('name').hasError('required')}"
+              name="name" placeholder="name">
+              <div *ngIf="newPersonForm.get('name').touched && newPersonForm.get('name').hasError('required')" class="red-text"><p>Required field</p></div>
+              <input formControlName="birthdate" type="datetime" class="validate"
+              [ngClass]="{'invalid': newPersonForm.get('birthdate').touched && (newPersonForm.get('birthdate').hasError('required') || newPersonForm.get('birthdate').hasError('pattern')),
+              'valid': newPersonForm.get('birthdate') && !newPersonForm.get('birthdate').invalid}"
+              name="birthdate" placeholder="YYYY-MM-DDT00:00:00">
+              <div *ngIf="newPersonForm.get('birthdate').touched && newPersonForm.get('birthdate').hasError('required')" class="red-text"><p>Required field</p></div>
+              <div *ngIf="newPersonForm.get('birthdate').touched && newPersonForm.get('birthdate').hasError('pattern')" class="red-text"><p>Field format invalid: date ISO YYYY-MM-DDT00:00:00</p></div>
           </div>
           <ul class="right toolbarcard">
             <li><a routerLink="/list" class="btn-floating waves-effect waves-light red"><i
                   class="material-icons">navigate_before</i></a></li>
-            <li><button type="submit" class="btn-floating waves-effect waves-light red"><i class="material-icons">save</i></button></li>
+            <li><button [disabled]="newPersonForm.invalid" type="submit"
+                class="btn-floating waves-effect waves-light red"><i class="material-icons">save</i></button></li>
           </ul>
         </form>
       </div>
