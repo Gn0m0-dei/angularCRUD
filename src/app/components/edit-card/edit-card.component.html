@@ -1,1 +1,80 @@
-<p>edit-card works!</p>
+<div *ngIf="loaded; else loading">
+  <div class="row">
+    <div class="col s12 m8 l6 xl5">
+      <div class="card grey lighten-5">
+        <div class="card-content">
+          <form #personForm="ngForm" (ngSubmit)="updatePerson()">
+            <span class="badge teal lighten-2 white-text">ID: {{content.id}}</span>
+            <div class="input-field">
+              <input type="text" data-length="10" name="name" #name="ngModel"
+              [(ngModel)]="content.name">
+              <input type="text" data-length="10" name="birthdate" #birthdate="ngModel"
+              [(ngModel)]="content.birthdate">
+            </div>
+            <ul class="right toolbarcard">
+              <li><a routerLink="/list" class="btn-floating waves-effect waves-light red"><i
+                    class="material-icons">navigate_before</i></a></li>
+              <li><button type="submit" class="btn-floating waves-effect waves-light red"><i
+                    class="material-icons">save</i></button></li>
+              <li><a (click)="deletePerson(content.id)" routerLink="/list" class="btn-floating waves-effect waves-light red"><i class="material-icons">delete</i></a></li>
+            </ul>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="center-align loadingMargin">
+    <div class="preloader-wrapper big active">
+      <div class="spinner-layer spinner-blue">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div>
+        <div class="gap-patch">
+          <div class="circle"></div>
+        </div>
+        <div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+
+      <div class="spinner-layer spinner-red">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div>
+        <div class="gap-patch">
+          <div class="circle"></div>
+        </div>
+        <div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+
+      <div class="spinner-layer spinner-yellow">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div>
+        <div class="gap-patch">
+          <div class="circle"></div>
+        </div>
+        <div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+
+      <div class="spinner-layer spinner-green">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div>
+        <div class="gap-patch">
+          <div class="circle"></div>
+        </div>
+        <div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
