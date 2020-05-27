@@ -17,11 +17,13 @@ export class ListCardsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPeople();
+    this.api.update.subscribe( res => {
+      this.getPeople();
+    })
   }
 
   getPeople() {
     this.api.getPeople().subscribe((people) => {
-      console.log(people);
       this.listPeople = people as People[];
       this.loaded = true;
     }, (err) => {
